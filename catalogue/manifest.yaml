@@ -72,7 +72,7 @@ spec:
      targetPort: 8080 # container port 
 --- 
 
-apiVersion: v1 
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscalar 
 metadata: 
       name: catalogue 
