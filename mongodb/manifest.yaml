@@ -72,11 +72,10 @@ spec:
    volumeClaimTemplates: 
    - metadata: 
             name: mongodb-data 
-   spec: 
-      accessModes: ["ReadWriteOnce"] 
-      storageClassName: "roboshop-ebs"         
-      resources: 
+     spec: 
+       accessModes: ["ReadWriteOnce"] 
+       storageClassName: "roboshop-ebs"         
+       resources: 
            requests: 
               storage: 2Gi 
 
-              
