@@ -42,7 +42,7 @@ spec:
          containers: 
          - name: user 
            image: subbu2/user:v1 
-           resource: 
+           resources: 
               requests: 
                  cpu: "50m" 
                  memory: "128Mi" 

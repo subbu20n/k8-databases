@@ -42,7 +42,7 @@ spec:
          containers: 
          - name: cart 
            image: subbu2/cart:v1
-           resource: 
+           resources: 
               requests: 
                  cpu: "50m" 
                  memory: "128Mi" 

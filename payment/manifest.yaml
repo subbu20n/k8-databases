@@ -57,7 +57,7 @@ spec:
         containers: 
         - name: payment 
           image: subbu2/payment:v1 
-          resource: 
+          resources: 
               requests: 
                  cpu: "50m" 
                  memory: "128Mi" 
