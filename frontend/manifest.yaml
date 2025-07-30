@@ -144,7 +144,7 @@ spec:
 --- 
 
 apiVersion: autoscaling/v2 
-kind: HorizontalPodAutoscalar 
+kind: HorizontalPodAutoscaler 
 metadata: 
        name: frontend
        namespace: roboshop 
