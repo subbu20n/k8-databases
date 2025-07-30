@@ -40,7 +40,7 @@ spec:
         containers: 
         - name: shipping 
           image: subbu2/shipping:v1  
-          resource: 
+          resources: 
               requests: 
                  cpu: "100m" 
                  memory: "256Mi" 
