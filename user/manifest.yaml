@@ -74,7 +74,7 @@ spec:
       targetPort: 8080 # container port              
 --- 
 apiVersion: autoscaling/v2 
-kind: HorizontalPodAutoscalar 
+kind: HorizontalPodAutoscaler 
 metadata: 
        name: user 
        namespace: roboshop 
