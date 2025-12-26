@@ -23,7 +23,7 @@ metadata:
          component: user 
          project: roboshop 
          tier: app 
-spec: 
+spec:  
    replicas: 1  
   # these are the labels replica set use to create pod replicas, this should match pod labels 
    selector: 
@@ -91,4 +91,4 @@ spec:
          name: cpu 
          target: 
             type: Utilization
-            averageUtilization: 10    
+            averageUtilization: 10     

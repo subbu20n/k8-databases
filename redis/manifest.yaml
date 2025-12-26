@@ -1,81 +1,80 @@
-apiVersion: v1 
-kind: Service 
+apiVersion: v1
+kind: service
 metadata: 
-      name: redis-headless 
-      namespace: roboshop 
-      labels: 
-         component: redis 
-         project: roboshop 
-         tier: database 
-spec: 
-   clusterIP: None 
-   selector: 
+    name: redis-headless  
+    namespace: roboshop
+    labels: 
        component: redis 
        project: roboshop 
        tier: database 
-   ports: 
-   - protocol: TCP 
-     port: 6379 # service port
-     targetPort: 6379 # container port 
---- 
-apiVersion: v1 
-kind: Service 
-metadata: 
-      name: redis 
-      namespace: roboshop 
-      labels: 
-         component: redis 
-         project: roboshop 
-         tier: database 
 spec: 
    selector: 
-       component: redis 
-       project: roboshop 
-       tier: database 
+      component: redis 
+      project: roboshop 
+      tier: database 
+   clusterIP: None  # this should be headless service 
    ports: 
    - protocol: TCP 
      port: 6379 # service port 
-     targetPort: 6379 # container port 
+     targetPort: 6379 # targetPort 
 --- 
-
+apiVersion: v1  
+kind: Service 
+metadata: 
+    name: redis    
+    namespace: roboshop  
+    labels: 
+       component: redis 
+       project: roboshop 
+       tier: database 
+spec: 
+   selector: 
+      component: redis 
+      project: roboshop 
+      tier: database 
+   ports: 
+   - protocol: TCP 
+     port: 6379 # service port 
+     targetPort: 6379 #container port 
+--- 
 apiVersion: apps/v1 
 kind: StatefulSet 
 metadata: 
-       name: redis 
-       namespace: roboshop 
-       labels: 
-          component: redis 
-          project: roboshop 
-          tier: database 
+    name: redis 
+    namespace: roboshop 
+    labels: 
+       component: redis 
+       project: roboshop 
+       tier: database  
 spec: 
-   selector: 
-       matchLabels: 
-             component: redis 
-             project: roboshop 
-             tier: database # has to match .spec .template .metadata.labels 
-   serviceName: "redis-headless" # this should be the headless server                     
-   replicas: 2 # by default 1 
+   replicas: 2 # by default it will create 1 
+   selector:
+     matchLabels:  
+       component: redis 
+       project: roboshop 
+       tier: database 
+   serviceName: "redis-headless" #this should be headless service 
+   #this is pod definition 
    template: 
-       metadata: 
-            labels: 
-               component: redis 
-               project: roboshop 
-               tier: database 
-       spec: 
-          containers: 
-          - name: redis 
-            image: redis:7.0 
-            volumeMounts: 
-            - name: redis-data 
-              mountPath: /data
-   # this is nothing but pvc, you can directly cretae here 
+      metadata: 
+         labels: 
+            component: redis 
+            project: roboshop
+            tier: database 
+      spec: 
+        containers: 
+        - name: redis 
+          image: redis:7.0 
+          volumeMounts: 
+          - name: redis-data 
+            mountPath: /data 
+   # this is nothing put PVC you can directly create here  
    volumeClaimTemplates: 
    - metadata: 
-            name: redis-data 
+         name: redis-data 
      spec: 
-       accessModes: ["ReadWriteOnce"] 
-       storageClassName: "roboshop-ebs"         
-       resources: 
-           requests: 
-              storage: 2Gi 
-
+        accessModes: ["ReadWriteOnce"] 
+        storageClassName: "roboshop-ebs" 
+        resources: 
+            requests: 
+                storage: 2Gi                                                   

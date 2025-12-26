@@ -19,7 +19,7 @@ metadata:
       labels: 
          component: rabbitmq 
          project: roboshop 
-         tier: database 
+         tier: database  
 spec: 
    clusterIP: None 
    selector: 
@@ -84,7 +84,7 @@ spec:
             volumeMounts: 
             - name: rabbitmq-data 
               mountPath: /var/lib/rabbitmq 
-   # this is nothing but pvc, you can directly cretae here 
+   # this is nothing but pvc, you can directly create here 
    volumeClaimTemplates: 
    - metadata: 
             name: rabbitmq-data 

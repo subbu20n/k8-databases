@@ -20,7 +20,7 @@ metadata:
          project: roboshop 
          tier: database 
 spec: 
-   clusterIP: None 
+   clusterIP: None  
    selector: 
        component: mysql 
        project: roboshop 
@@ -90,7 +90,7 @@ spec:
      spec: 
        accessModes: ["ReadWriteOnce"] 
        storageClassName: "roboshop-ebs"         
-       resources: 
+       resources:  
            requests: 
               storage: 2Gi 
 

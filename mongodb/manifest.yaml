@@ -1,81 +1,81 @@
 apiVersion: v1 
-kind: Service 
+kind: Service
 metadata: 
-      name: mongodb-headless 
-      namespace: roboshop 
-      labels: 
-         component: mongodb 
-         project: roboshop 
-         tier: database 
+     name: mongodb-headless
+     namespace: roboshop 
+     labels: 
+        component: mongodb 
+        project: roboshop 
+        tier: database 
 spec: 
    clusterIP: None 
    selector: 
-       component: mongodb 
+       component: mongodb
        project: roboshop 
        tier: database 
    ports: 
    - protocol: TCP 
-     port: 27017 # service port
-     targetPort: 27017 # container port 
+     port: 27017 #service port 
+     targetPort: 27017 #container port  
 --- 
 apiVersion: v1 
 kind: Service 
 metadata: 
-      name: mongodb 
-      namespace: roboshop 
-      labels: 
-         component: mongodb 
-         project: roboshop 
-         tier: database 
+     name: mongodb 
+     namespace: roboshop 
+     labels: 
+        component: mongodb 
+        project: roboshop 
+        tier: database 
 spec: 
    selector: 
-       component: mongodb 
-       project: roboshop 
-       tier: database 
+      component: mongodb
+      project: roboshop 
+      tier: database 
    ports: 
    - protocol: TCP 
-     port: 27017 # service port 
-     targetPort: 27017 # container port 
+     port: 27017 #service port  
+     targetPort: 27017 #container port 
 --- 
-
 apiVersion: apps/v1 
 kind: StatefulSet 
 metadata: 
-       name: mongodb 
-       namespace: roboshop 
-       labels: 
-          component: mongodb 
-          project: roboshop 
-          tier: database 
+     name: mongodb 
+     namespace: roboshop 
+     labels: 
+       component: mongodb 
+       project: roboshop 
+       tier: database 
 spec: 
+   replicas: 2 # by default it will be 1 
    selector: 
-       matchLabels: 
-             component: mongodb 
-             project: roboshop 
-             tier: database # has to match .spec .template .metadata.labels 
-   serviceName: "mongodb-headless" # this should be the headless server                     
-   replicas: 2 # by default 1 
+       matchlabels: 
+           component: mongodb 
+           project: roboshop 
+           tier: database 
+   serviceName: "mongodb-headless" # this should be the headless service 
+   # This is pod definition 
    template: 
-       metadata: 
-            labels: 
-               component: mongodb 
-               project: roboshop 
-               tier: database 
-       spec: 
-          containers: 
-          - name: mongodb 
-            image: subbu2/mongodb:v1 
-            volumeMounts: 
-            - name: mongodb-data 
-              mountPath: /data/db         
-   # this is nothing but pvc, you can directly cretae here 
+      metadata: 
+         labels: 
+            component: mongodb 
+            project: roboshop 
+            tier: database                                                
+      spec: 
+        containers: 
+        - name: mongodb 
+          image: subbu2/mongodb:v1 
+          volumeMounts: 
+          - name: mongodb-data 
+            mountPath: data/db  
+   # This is nothing but PVC you can directly create here  or else create seperately 
    volumeClaimTemplates: 
    - metadata: 
-            name: mongodb-data 
-     spec: 
-       accessModes: ["ReadWriteOnce"] 
-       storageClassName: "roboshop-ebs"         
-       resources: 
-           requests: 
-              storage: 2Gi 
-
+       name: mongodb-data 
+   spec: 
+      accessModes: ["ReadWriteOnce"] 
+      storageClassName: "roboshop-ebs" 
+      resources:  
+         requests: 
+            storage: 2Gi                
+             
